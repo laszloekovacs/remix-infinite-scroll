@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -10,4 +10,4 @@ RUN npm install && npm run build
 EXPOSE 3000
 
 #start the remix server
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]
