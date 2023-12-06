@@ -13,7 +13,7 @@ const InfiniteScroller = (props: {
     scrollListener.current = loadNext
   }, [loadNext])
 
-  const onScroll = useCallback(() => {
+  const onScroll = () => {
     const { scrollHeight, scrollTop, clientHeight } = document.documentElement
 
     // if scrolltop + clientHeight is equal to scrollHeight
@@ -21,7 +21,7 @@ const InfiniteScroller = (props: {
     if (Math.floor(scrollTop + clientHeight) == scrollHeight && !loading) {
       scrollListener.current()
     }
-  }, [scrollListener, loading])
+  }
 
   /* register scroll event listener */
   useEffect(() => {

@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
-import type { Data } from './api.server'
+import type { Data, ItemsResponse } from './api.server'
 import { fetchItems } from './api.server'
 import { useFetcher, useLoaderData } from '@remix-run/react'
 import { useEffect, useState } from 'react'
@@ -14,21 +14,22 @@ export const meta: MetaFunction = () => {
 
 export const loader = async (context: LoaderFunctionArgs) => {
   const url = new URL(context.request.url)
+  console.log(url.searchParams.get('page'))
   const page = url.searchParams.get('page') || 0
 
   const items = await fetchItems({ page: Number(page) })
 
-  return Promise.resolve(items)
+  return items
 }
 
 export default function Index() {
-  const initialItems = useLoaderData<typeof loader>()
-  const fetcher = useFetcher<typeof loader>()
+  const initialItems = useLoaderData<ItemsResponse>()
+  const fetcher = useFetcher<ItemsResponse>()
 
   const [items, setItems] = useState<Data[]>(initialItems.data)
 
   useEffect(() => {
-    if (!fetcher.data || fetcher.state === 'loading') {
+    if (!fetcher.data || fetcher.state == 'loading') {
       return
     }
 
@@ -41,13 +42,13 @@ export default function Index() {
   return (
     <div>
       <InfiniteScroller
-        loading={fetcher.state === 'loading'}
+        loading={fetcher.state == 'loading'}
         loadNext={() => {
           const page = fetcher.data
             ? fetcher.data.page + 1
             : initialItems.page + 1
 
-          const query = `?_index&page=${page}`
+          const query = `?index&page=${page}`
           fetcher.load(query)
 
           console.log(`load next page ${page}`)
