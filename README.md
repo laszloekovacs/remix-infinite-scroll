@@ -1,6 +1,6 @@
 # Infinite scrolling with remix fetcher
 
-- [Remix Docs](https://remix.run/docs)
+[![Remix](https://img.shields.io/badge/Remix-000000?style=for-the-badge&logo=Remix&logoColor=FFFFFF&logoWidth=14)](https://remix.run)
 
 ## Known issues
 
