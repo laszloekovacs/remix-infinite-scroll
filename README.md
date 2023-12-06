@@ -7,4 +7,6 @@
 - if on initial load the app does not overflow the screen, the loader does not work
 - it seems the fetcher overfetches when the window is getting resized
 
+## Example
+
 ![screencap](lice.gif)
