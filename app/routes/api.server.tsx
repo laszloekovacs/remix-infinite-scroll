@@ -17,7 +17,7 @@ export const fetchItems = async (query: {
   )
 
   /* fake delay */
-  await new Promise((r) => setTimeout(r, 500))
+  await new Promise((r) => setTimeout(r, 800))
 
   return Promise.resolve({
     data: items,

@@ -4,6 +4,7 @@ import { fetchItems } from './api.server'
 import { useFetcher, useLoaderData } from '@remix-run/react'
 import { useEffect, useState } from 'react'
 import InfiniteScroller from '~/InfiniteScroller'
+import Loader from '~/Loader'
 
 export const meta: MetaFunction = () => {
   return [
@@ -41,6 +42,8 @@ export default function Index() {
 
   return (
     <div>
+      <Loader isPending={fetcher.state == 'loading'} />
+      <h1>remix infinite scroller galery</h1>
       <InfiniteScroller
         loading={fetcher.state == 'loading'}
         loadNext={() => {
@@ -55,7 +58,12 @@ export default function Index() {
         }}
       >
         {items.map((item) => (
-          <img key={item.id} src={item.thumb} alt={item.thumb} />
+          <img
+            className="thumbnail"
+            key={item.id}
+            src={item.thumb}
+            alt={item.thumb}
+          />
         ))}
       </InfiniteScroller>
     </div>
