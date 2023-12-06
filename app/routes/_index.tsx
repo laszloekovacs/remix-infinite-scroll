@@ -1,41 +1,34 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
+import type { Data } from './api.server'
+import { fetchItems } from './api.server'
+import { useLoaderData } from '@remix-run/react'
+import { useState } from 'react'
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
-  ];
-};
+    { title: 'remix-infinite-scroll' },
+    { name: 'description', content: 'infinite scrolling with fetcher!' },
+  ]
+}
+
+export const loader = async (context: LoaderFunctionArgs) => {
+  const url = new URL(context.request.url)
+  const page = url.searchParams.get('page') || 0
+
+  const items = await fetchItems({ page: Number(page) })
+
+  return Promise.resolve(items)
+}
 
 export default function Index() {
+  const initialItems = useLoaderData<typeof loader>()
+  const [items, setItems] = useState<Data[]>(initialItems.data)
+
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Welcome to Remix</h1>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
+    <div>
+      {items.map((item) => (
+        <img key={item.id} src={item.thumb} alt={item.thumb} />
+      ))}
     </div>
-  );
+  )
 }
