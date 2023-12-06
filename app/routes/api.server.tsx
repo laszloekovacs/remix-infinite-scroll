@@ -1,7 +1,7 @@
 export type Data = { id: number; thumb: string }
 export type ItemsResponse = { data: Data[]; page: number }
 
-const PER_PAGE = 20
+const PER_PAGE = 30
 
 export const fetchItems = async (query: {
   page: number
